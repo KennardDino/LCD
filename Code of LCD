@@ -1,0 +1,45 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+LiquidCrystal_I2C lcd(32, 16, 2);  
+int bt = 6;
+int L = 3;
+int BP = 5;
+
+void setup()
+{
+  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(bt, INPUT);
+  pinMode(L, OUTPUT);
+  pinMode(BP, OUTPUT);
+  lcd.init();
+  lcd.backlight();
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  lcd.setCursor(0, 0);
+  int val = digitalRead(bt);
+  Serial.println(val);
+  
+  if (val == 1) {
+    lcd.print("ALL Clear             ");
+    digitalWrite(L, LOW);
+    noTone(BP);
+    
+  } else {
+    lcd.print("EMERGENCY ASAP"); 
+    digitalWrite(L, HIGH);
+    for (int freq = 1000; freq <= 2000; freq += 50) {
+      tone(BP, freq, 100);  
+      delay(100);
+    }
+    for (int freq = 2000; freq >= 1000; freq -= 50) {
+      tone(BP, freq, 100);  
+      delay(100);
+    
+  }
+  }
+  
+  delay(100);
+}
