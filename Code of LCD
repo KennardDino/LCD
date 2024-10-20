@@ -23,11 +23,6 @@ void loop()
   Serial.println(val);
   
   if (val == 1) {
-    lcd.print("ALL Clear             ");
-    digitalWrite(L, LOW);
-    noTone(BP);
-    
-  } else {
     lcd.print("EMERGENCY ASAP"); 
     digitalWrite(L, HIGH);
     for (int freq = 1000; freq <= 2000; freq += 50) {
@@ -37,8 +32,14 @@ void loop()
     for (int freq = 2000; freq >= 1000; freq -= 50) {
       tone(BP, freq, 100);  
       delay(100);
-    
   }
+    
+  } else {
+
+    lcd.print("ALL Clear             ");
+    digitalWrite(L, LOW);
+    noTone(BP);
+    
   }
   
   delay(100);
